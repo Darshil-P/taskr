@@ -43,12 +43,18 @@ function App() {
     setTasks(newTasks);
   }
 
+  function handleDelete(task: Task) {
+    console.log(`Change! ${task.title}`);
+    const newTasks = tasks.filter((tsk) => tsk.id != task.id);
+    setTasks(newTasks);
+  }
+
   return (
     <>
       <TaskTable
         items={tasks}
         onChange={(task) => handleChange(task)}
-        onDelete={(task) => console.log(`Delete! ${task.title}`)}
+        onDelete={(task) => handleDelete(task)}
       />
     </>
   );
