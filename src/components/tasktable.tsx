@@ -4,12 +4,14 @@ import { Task } from "../types/task";
 interface TaskTableProps {
   items: Array<Task>;
   onChange: (task: Task) => void;
+  onEdit: (task: Task) => void;
   onDelete: (taskId: string) => void;
 }
 
 const TaskTable: FunctionComponent<TaskTableProps> = ({
   items,
   onChange: handleStatusChange,
+  onEdit: handleEdit,
   onDelete: handleDelete,
 }) => {
   {
@@ -56,12 +58,22 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
               <td>{task.description}</td>
               <td>{task.dueDate.toDateString()}</td>
               <td>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(task.id)}
-                >
-                  Delete
-                </button>
+                <div>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(task.id)}
+                  >
+                    Delete
+                  </button>
+                  <span className="m-1" />
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    onClick={() => handleEdit(task)}
+                  >
+                    Edit
+                  </button>
+                </div>
               </td>
             </tr>
           );

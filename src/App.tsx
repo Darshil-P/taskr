@@ -47,12 +47,24 @@ function App() {
     setTasks(newTasks);
   }
 
+  function handleEdit(task: Task) {
+    console.log(`Edit unimplemented ${task.id}`);
+  }
+
+  function handleCreate() {
+    console.log(`Create todo unimplemented`);
+  }
+
   return (
     <>
+      <button onClick={handleCreate} className="btn btn-success w-full my-4">
+        + Add new Task
+      </button>
       <TaskTable
         items={tasks}
         onChange={(task) => handleChange(task)}
         onDelete={(taskId) => handleDelete(taskId)}
+        onEdit={(task) => handleEdit(task)}
       />
     </>
   );
