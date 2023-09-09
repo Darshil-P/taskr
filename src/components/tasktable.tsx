@@ -1,12 +1,5 @@
 import { FunctionComponent } from "react";
-
-type Task = {
-  id: `${string}-${string}-${string}-${string}-${string}`;
-  title: string;
-  description: string;
-  completed: boolean;
-  dueDate: Date;
-};
+import { Task } from "../types/task";
 
 interface TaskTableProps {
   items: Array<Task>;

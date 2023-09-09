@@ -1,8 +1,10 @@
+import { useState } from "react";
 import "./App.css";
 import TaskTable from "./components/tasktable";
+import { Task } from "./types/task";
 
 function App() {
-  const tasks = [
+  const [tasks, setTasks] = useState([
     {
       id: crypto.randomUUID(),
       title: "task1",
@@ -31,12 +33,21 @@ function App() {
       completed: true,
       dueDate: new Date("2023-10-30"),
     },
-  ];
+  ]);
+
+  function handleChange(task: Task) {
+    console.log(`Change! ${task.title}`);
+    const index = tasks.indexOf(task);
+    const newTasks = [...tasks];
+    newTasks[index].completed = !task.completed;
+    setTasks(newTasks);
+  }
+
   return (
     <>
       <TaskTable
         items={tasks}
-        onChange={(task) => console.log(`Change! ${task.title}`)}
+        onChange={(task) => handleChange(task)}
         onDelete={(task) => console.log(`Delete! ${task.title}`)}
       />
     </>
