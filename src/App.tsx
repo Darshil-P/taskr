@@ -36,16 +36,14 @@ function App() {
   ]);
 
   function handleChange(task: Task) {
-    console.log(`Change! ${task.title}`);
     const index = tasks.indexOf(task);
     const newTasks = [...tasks];
     newTasks[index].completed = !task.completed;
     setTasks(newTasks);
   }
 
-  function handleDelete(task: Task) {
-    console.log(`Change! ${task.title}`);
-    const newTasks = tasks.filter((tsk) => tsk.id != task.id);
+  function handleDelete(taskId: string) {
+    const newTasks = tasks.filter((task) => task.id != taskId);
     setTasks(newTasks);
   }
 
@@ -54,7 +52,7 @@ function App() {
       <TaskTable
         items={tasks}
         onChange={(task) => handleChange(task)}
-        onDelete={(task) => handleDelete(task)}
+        onDelete={(taskId) => handleDelete(taskId)}
       />
     </>
   );

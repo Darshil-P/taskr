@@ -4,7 +4,7 @@ import { Task } from "../types/task";
 interface TaskTableProps {
   items: Array<Task>;
   onChange: (task: Task) => void;
-  onDelete: (task: Task) => void;
+  onDelete: (taskId: string) => void;
 }
 
 const TaskTable: FunctionComponent<TaskTableProps> = ({
@@ -58,7 +58,7 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
               <td>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDelete(task)}
+                  onClick={() => handleDelete(task.id)}
                 >
                   Delete
                 </button>
