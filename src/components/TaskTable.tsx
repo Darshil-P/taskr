@@ -1,24 +1,18 @@
 import { FunctionComponent } from "react";
+import { Button } from "react-bootstrap";
 import { Task } from "../types/task";
-import EditTask from "./EditTaskModal";
 
 interface TaskTableProps {
   items: Array<Task>;
-  editModalVisible: boolean;
-  onChange: (task: Task) => void;
-  onEditTask: (task: Task) => void;
-  onCancelEdit: () => void;
-  onSaveEdit: (task: Task) => void;
-  onDelete: (taskId: string) => void;
+  onChange: (slectedIndex: number) => void;
+  onEditTask: (selectedIndex: number) => void;
+  onDelete: (slectedIndex: number) => void;
 }
 
 const TaskTable: FunctionComponent<TaskTableProps> = ({
   items,
-  editModalVisible: visible,
   onChange: handleStatusChange,
   onEditTask: handleShow,
-  onCancelEdit: handelCancel,
-  onSaveEdit: handleSave,
   onDelete: handleDelete,
 }) => {
   {
@@ -51,7 +45,7 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
                     className="form-check-input px-2 ml-2 col-auto"
                     type="checkbox"
                     checked={task.completed}
-                    onChange={() => handleStatusChange(task)}
+                    onChange={() => handleStatusChange(index)}
                     id={task.id}
                   />
                   <label
@@ -69,19 +63,17 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
                 <div>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(task.id)}
+                    onClick={() => handleDelete(index)}
                   >
                     Delete
                   </button>
                   <span className="m-1" />
-
-                  <EditTask
-                    task={task}
-                    show={visible}
-                    onShow={(task: Task) => handleShow(task)}
-                    onCancel={handelCancel}
-                    onSave={(task: Task) => handleSave(task)}
-                  />
+                  <Button
+                    variant="primary btn-sm"
+                    onClick={() => handleShow(index)}
+                  >
+                    Edit
+                  </Button>
                 </div>
               </td>
             </tr>

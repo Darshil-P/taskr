@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import EditTaskModal from "./components/EditTaskModal";
 import TaskTable from "./components/TaskTable";
 import Navbar from "./components/navbar";
 import { Task } from "./types/task";
@@ -37,22 +38,24 @@ function App() {
   ]);
 
   const [showEditModal, setShowEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState(0);
 
-  function handleChange(task: Task) {
-    const index = tasks.indexOf(task);
+  function handleChange(index: number) {
     const newTasks = [...tasks];
-    newTasks[index].completed = !task.completed;
+    newTasks[index].completed = !newTasks[index].completed;
     setTasks(newTasks);
   }
 
-  function handleDelete(taskId: string) {
-    const newTasks = tasks.filter((task) => task.id != taskId);
+  function handleDelete(index: number) {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
     setTasks(newTasks);
   }
 
-  function handleEditTask(task: Task) {
+  function handleEditTask(index: number) {
+    setEditIndex(index);
     setShowEdit(true);
-    console.log(`Edit unimplemented ${task.id}`);
+    console.log(`Edit task ${index}`);
   }
 
   function handleCancelEdit() {
@@ -62,7 +65,8 @@ function App() {
 
   function handleSaveEdit(task: Task) {
     setShowEdit(false);
-    console.log(`Save edit unimplemented ${task.id}`);
+    const index = tasks.indexOf(task);
+    console.log(`Save task ${index}`);
   }
 
   function handleCreate() {
@@ -77,12 +81,15 @@ function App() {
       </button>
       <TaskTable
         items={tasks}
-        onChange={(task) => handleChange(task)}
-        onDelete={(taskId) => handleDelete(taskId)}
-        onEditTask={(task) => handleEditTask(task)}
-        onCancelEdit={handleCancelEdit}
-        editModalVisible={showEditModal}
-        onSaveEdit={(task) => handleSaveEdit(task)}
+        onChange={(index) => handleChange(index)}
+        onDelete={(index) => handleDelete(index)}
+        onEditTask={(index) => handleEditTask(index)}
+      />
+      <EditTaskModal
+        task={tasks[editIndex]}
+        show={showEditModal}
+        onCancel={handleCancelEdit}
+        onSave={(task) => handleSaveEdit(task)}
       />
     </>
   );
