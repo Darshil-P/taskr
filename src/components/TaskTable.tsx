@@ -15,9 +15,7 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
   onEditTask: handleShow,
   onDelete: handleDelete,
 }) => {
-  {
-    if (items.length == 0) return "No Tasks Found";
-  }
+  if (items.length == 0) return "No Tasks Found";
 
   return (
     <table className="table table-striped">
@@ -32,33 +30,30 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
         </tr>
       </thead>
       <tbody>
-        {items.map((task, index) => {
+        {items.map(({ id, completed, title, description, dueDate }, index) => {
           return (
-            <tr
-              key={task.id}
-              className={task.completed ? "opacity-50 line-through" : ""}
-            >
+            <tr key={id} className={completed ? "opacity-50 line-through" : ""}>
               <th scope="row">{index + 1}</th>
               <td>
                 <div className="row">
                   <input
                     className="form-check-input px-2 ml-2 col-auto"
                     type="checkbox"
-                    checked={task.completed}
+                    checked={completed}
                     onChange={() => handleStatusChange(index)}
-                    id={task.id}
+                    id={id}
                   />
                   <label
                     className="form-check-label mx-1 col-auto"
-                    htmlFor={task.id}
+                    htmlFor={id}
                   >
-                    {task.completed ? "Done" : "Pending"}
+                    {completed ? "Done" : "Pending"}
                   </label>
                 </div>
               </td>
-              <td>{task.title}</td>
-              <td>{task.description}</td>
-              <td>{new Date(task.dueDate).toDateString()}</td>
+              <td>{title}</td>
+              <td>{description}</td>
+              <td>{new Date(dueDate).toDateString()}</td>
               <td>
                 <div>
                   <button

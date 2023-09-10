@@ -24,10 +24,10 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
     } else {
       const updatedTask: Task = {
         id: task?.id ?? crypto.randomUUID(),
-        title: title,
-        description: description,
-        dueDate: dueDate,
         completed: task?.completed ?? false,
+        title,
+        description,
+        dueDate,
       };
       onSubmit(updatedTask);
     }
@@ -71,7 +71,7 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
           <Form.Control
             required
             type="text"
-            placeholder="sleep"
+            placeholder="task title"
             value={title}
             onChange={(e) => handleTitleChange(e)}
           />
@@ -86,7 +86,7 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
           <Form.Control
             required
             as="textarea"
-            placeholder="more sleep"
+            placeholder="describe your task"
             value={description}
             onChange={(e) => handleDescriptionChange(e)}
           />

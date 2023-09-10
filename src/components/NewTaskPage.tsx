@@ -31,9 +31,9 @@ const NewTaskPage: FunctionComponent<NewTaskPageProps> = () => {
         </Col>
         <Col>
           <Button
-            className="w-full"
             type="submit"
             form="saveTaskForm"
+            className="w-full"
             variant="primary"
           >
             Save Changes
