@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import Navbar from "./components/navbar";
 import TaskTable from "./components/tasktable";
 import { Task } from "./types/task";
 
@@ -57,6 +58,7 @@ function App() {
 
   return (
     <>
+      <Navbar />
       <button onClick={handleCreate} className="btn btn-success w-full my-4">
         + Add new Task
       </button>
