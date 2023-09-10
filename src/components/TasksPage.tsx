@@ -45,7 +45,6 @@ const TasksPage: FunctionComponent<TasksPageProps> = ({ items }) => {
 
   function handleCreate() {
     navigate("/new");
-    console.log(`Create todo unimplemented`);
   }
 
   return (

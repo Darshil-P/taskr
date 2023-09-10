@@ -1,14 +1,15 @@
-import { RouterProvider } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/navbar";
-import router from "./router";
+import NewTaskPage from "./components/NewTaskPage";
+import TasksPage from "./components/TasksPage";
+import tasks from "./tasks";
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <RouterProvider router={router} />
-    </>
+    <Routes>
+      <Route path="/" element={<TasksPage items={tasks} />} />
+      <Route path="/new" element={<NewTaskPage />} />
+    </Routes>
   );
 }
 
