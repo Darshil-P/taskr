@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import TaskTable from "./components/TaskTable";
 import Navbar from "./components/navbar";
-import TaskTable from "./components/tasktable";
 import { Task } from "./types/task";
 
 function App() {
@@ -36,6 +36,8 @@ function App() {
     },
   ]);
 
+  const [showEditModal, setShowEdit] = useState(false);
+
   function handleChange(task: Task) {
     const index = tasks.indexOf(task);
     const newTasks = [...tasks];
@@ -48,8 +50,19 @@ function App() {
     setTasks(newTasks);
   }
 
-  function handleEdit(task: Task) {
+  function handleEditTask(task: Task) {
+    setShowEdit(true);
     console.log(`Edit unimplemented ${task.id}`);
+  }
+
+  function handleCancelEdit() {
+    setShowEdit(false);
+    console.log(`Cancel edit`);
+  }
+
+  function handleSaveEdit(task: Task) {
+    setShowEdit(false);
+    console.log(`Save edit unimplemented ${task.id}`);
   }
 
   function handleCreate() {
@@ -66,7 +79,10 @@ function App() {
         items={tasks}
         onChange={(task) => handleChange(task)}
         onDelete={(taskId) => handleDelete(taskId)}
-        onEdit={(task) => handleEdit(task)}
+        onEditTask={(task) => handleEditTask(task)}
+        onCancelEdit={handleCancelEdit}
+        editModalVisible={showEditModal}
+        onSaveEdit={(task) => handleSaveEdit(task)}
       />
     </>
   );

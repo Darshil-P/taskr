@@ -1,22 +1,30 @@
 import { FunctionComponent } from "react";
 import { Task } from "../types/task";
+import EditTask from "./EditTaskModal";
 
 interface TaskTableProps {
   items: Array<Task>;
+  editModalVisible: boolean;
   onChange: (task: Task) => void;
-  onEdit: (task: Task) => void;
+  onEditTask: (task: Task) => void;
+  onCancelEdit: () => void;
+  onSaveEdit: (task: Task) => void;
   onDelete: (taskId: string) => void;
 }
 
 const TaskTable: FunctionComponent<TaskTableProps> = ({
   items,
+  editModalVisible: visible,
   onChange: handleStatusChange,
-  onEdit: handleEdit,
+  onEditTask: handleShow,
+  onCancelEdit: handelCancel,
+  onSaveEdit: handleSave,
   onDelete: handleDelete,
 }) => {
   {
     if (items.length == 0) return "No Tasks Found";
   }
+
   return (
     <table className="table table-striped">
       <thead>
@@ -66,13 +74,14 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
                     Delete
                   </button>
                   <span className="m-1" />
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={() => handleEdit(task)}
-                  >
-                    Edit
-                  </button>
+
+                  <EditTask
+                    task={task}
+                    show={visible}
+                    onShow={(task: Task) => handleShow(task)}
+                    onCancel={handelCancel}
+                    onSave={(task: Task) => handleSave(task)}
+                  />
                 </div>
               </td>
             </tr>
