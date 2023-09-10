@@ -12,7 +12,9 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
   const [validated, setValidated] = useState(false);
   const [title, setTitle] = useState(task?.title ?? "");
   const [description, setDescription] = useState(task?.description ?? "");
-  const [dueDate, setDueDate] = useState(task?.dueDate ?? new Date());
+  const [dueDate, setDueDate] = useState(
+    task?.dueDate ?? new Date().toISOString()
+  );
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,7 +52,9 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
   function handleDateChange(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    const newDate = new Date(event.currentTarget.value?.toString());
+    const newDate = new Date(
+      event.currentTarget.value?.toString()
+    ).toISOString();
     setDueDate(newDate);
   }
 
@@ -96,7 +100,7 @@ const TaskForm: FunctionComponent<TaskFormProps> = ({ id, task, onSubmit }) => {
           <Form.Label>Due Date</Form.Label>
           <Form.Control
             type="date"
-            value={dueDate.toISOString().slice(0, 10)}
+            value={dueDate.slice(0, 10)}
             onChange={(e) => handleDateChange(e)}
           />
           <Form.Control.Feedback type="invalid">

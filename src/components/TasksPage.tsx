@@ -1,16 +1,15 @@
 import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getTasks, setTasks as storeTasks } from "../storage";
 import { Task } from "../types/task";
 import EditTaskModal from "./EditTaskModal";
 import TaskTable from "./TaskTable";
 
-interface TasksPageProps {
-  items: Array<Task>;
-}
+interface TasksPageProps {}
 
-const TasksPage: FunctionComponent<TasksPageProps> = ({ items }) => {
+const TasksPage: FunctionComponent<TasksPageProps> = () => {
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState(items);
+  const [tasks, setTasks] = useState(getTasks);
   const [showEditModal, setShowEdit] = useState(false);
   const [editIndex, setEditIndex] = useState(0);
 
@@ -18,12 +17,14 @@ const TasksPage: FunctionComponent<TasksPageProps> = ({ items }) => {
     const newTasks = [...tasks];
     newTasks[index].completed = !newTasks[index].completed;
     setTasks(newTasks);
+    storeTasks(newTasks);
   }
 
   function handleDelete(index: number) {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
+    storeTasks(newTasks);
   }
 
   function handleEditTask(index: number) {
@@ -37,10 +38,11 @@ const TasksPage: FunctionComponent<TasksPageProps> = ({ items }) => {
 
   function handleSaveEdit(updatedTask: Task) {
     setShowEdit(false);
-    const index = tasks.findIndex((task) => task.id == updatedTask.id);
+    const index = tasks.findIndex((task: Task) => task.id == updatedTask.id);
     const newTasks = [...tasks];
     newTasks[index] = updatedTask;
     setTasks(newTasks);
+    storeTasks(newTasks);
   }
 
   function handleCreate() {

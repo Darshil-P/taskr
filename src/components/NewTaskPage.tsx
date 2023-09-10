@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import tasks from "../tasks";
+import { getTasks, setTasks } from "../storage";
 import { Task } from "../types/task";
 import TaskForm from "./TaskForm";
 
@@ -10,7 +10,9 @@ interface NewTaskPageProps {}
 const NewTaskPage: FunctionComponent<NewTaskPageProps> = () => {
   const navigate = useNavigate();
   function handelSubmit(task: Task) {
+    const tasks = getTasks();
     tasks.push(task);
+    setTasks(tasks);
     navigate("/");
   }
 

@@ -58,7 +58,7 @@ const TaskTable: FunctionComponent<TaskTableProps> = ({
               </td>
               <td>{task.title}</td>
               <td>{task.description}</td>
-              <td>{task.dueDate.toDateString()}</td>
+              <td>{new Date(task.dueDate).toDateString()}</td>
               <td>
                 <div>
                   <button
