@@ -1,4 +1,4 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { Button, Form, Modal, Row } from "react-bootstrap";
 import { Task } from "../types/task";
 
@@ -16,6 +16,16 @@ const EditTaskModal: FunctionComponent<EditTaskModalProps> = ({
   onCancel: handleCancel,
 }) => {
   const [validated, setValidated] = useState(false);
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.title);
+  const [dueDate, setDueDate] = useState(task.dueDate);
+
+  function initialize() {
+    setValidated(false);
+    setTitle(task.title);
+    setDescription(task.description);
+    setDueDate(task.dueDate);
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,15 +33,42 @@ const EditTaskModal: FunctionComponent<EditTaskModalProps> = ({
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
-      handleSave(task);
+      const updatedTask: Task = {
+        ...task,
+        title: title,
+        description: description,
+        dueDate: dueDate,
+      };
+      handleSave(updatedTask);
     }
 
     setValidated(true);
   }
 
+  function handleTitleChange(
+    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const newTitle = event.currentTarget.value?.toString() ?? "";
+    setTitle(newTitle);
+  }
+
+  function handleDescriptionChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const newDescription = event.currentTarget.value?.toString() ?? "";
+    setDescription(newDescription);
+  }
+
+  function handleDateChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const newDate = new Date(event.currentTarget.value?.toString());
+    setDueDate(newDate);
+  }
+
   return (
     <>
-      <Modal show={show} onHide={handleCancel} centered>
+      <Modal show={show} onHide={handleCancel} onShow={initialize} centered>
         <Modal.Header closeButton>
           <Modal.Title>Edit Task</Modal.Title>
         </Modal.Header>
@@ -43,13 +80,14 @@ const EditTaskModal: FunctionComponent<EditTaskModalProps> = ({
             onSubmit={(event) => handleSubmit(event)}
           >
             <Row className="mb-3">
-              <Form.Group controlId="validationCustom01">
+              <Form.Group>
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                   required
                   type="text"
                   placeholder="sleep"
-                  defaultValue={task.title}
+                  value={title}
+                  onChange={(e) => handleTitleChange(e)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a title.
@@ -57,13 +95,14 @@ const EditTaskModal: FunctionComponent<EditTaskModalProps> = ({
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group controlId="validationCustom02">
+              <Form.Group>
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                   required
                   as="textarea"
                   placeholder="more sleep"
-                  defaultValue={task.description}
+                  value={description}
+                  onChange={(e) => handleDescriptionChange(e)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a description.
@@ -71,12 +110,12 @@ const EditTaskModal: FunctionComponent<EditTaskModalProps> = ({
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group controlId="validationCustom03">
+              <Form.Group>
                 <Form.Label>Due Date</Form.Label>
                 <Form.Control
                   type="date"
-                  placeholder="dd/mm/yyyy"
-                  defaultValue={task.dueDate.toISOString().slice(0, 10)}
+                  value={dueDate.toISOString().slice(0, 10)}
+                  onChange={(e) => handleDateChange(e)}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid date.

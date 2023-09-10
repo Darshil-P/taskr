@@ -55,18 +55,18 @@ function App() {
   function handleEditTask(index: number) {
     setEditIndex(index);
     setShowEdit(true);
-    console.log(`Edit task ${index}`);
   }
 
   function handleCancelEdit() {
     setShowEdit(false);
-    console.log(`Cancel edit`);
   }
 
-  function handleSaveEdit(task: Task) {
+  function handleSaveEdit(updatedTask: Task) {
     setShowEdit(false);
-    const index = tasks.indexOf(task);
-    console.log(`Save task ${index}`);
+    const index = tasks.findIndex((task) => task.id == updatedTask.id);
+    const newTasks = [...tasks];
+    newTasks[index] = updatedTask;
+    setTasks(newTasks);
   }
 
   function handleCreate() {
